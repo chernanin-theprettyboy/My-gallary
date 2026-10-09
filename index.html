@@ -63,6 +63,104 @@ figcaption{padding:12px 16px;font-size:.95rem;color:var(--mute)}
 @media (prefers-reduced-motion:reduce){
   body::before{animation:none}
 }
+
+/* Animation */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 70%, color-mix(in srgb, var(--accent) 90%, transparent), transparent 60%),
+    radial-gradient(circle at 80% 70%, color-mix(in srgb, var(--accent) 60%, transparent), transparent 60%);
+  animation: drift 4s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(4%, -3%) scale(1.15); }
+}
+
+/* Sakura falling petals */
+.sakura-container {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.petal {
+  position: absolute;
+  top: -40px;
+  font-size: 22px;
+  opacity: 0.85;
+  animation: sakura-fall 10s linear infinite;
+}
+
+.petal span {
+  display: block;
+  animation: sakura-sway 3s ease-in-out infinite alternate;
+}
+
+@keyframes sakura-fall {
+  from { transform: translateY(0); }
+  to { transform: translateY(110vh); }
+}
+
+@keyframes sakura-sway {
+  from { transform: translateX(-25px) rotate(0deg); }
+  to { transform: translateX(25px) rotate(90deg); }
+}
+
+/* Keep your gallery content above the petals */
+header, .bar, #grid {
+  position: relative;
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
+  }
+
+  .sakura-container {
+    display: none;
+  }
+}
+</style>
+```
+
+## Step 2 — Add the sakura HTML
+
+Now scroll down to the `<body>` section. Find these exact lines:
+
+```html
+</header>
+<div class="bar" id="bar">
+</div>
+```
+
+Insert the new sakura container between them so the section looks like this:
+
+<CodeBlock language="html" editable>
+</header>
+
+<!-- Sakura falling petals -->
+<div class="sakura-container" aria-hidden="true">
+  <div class="petal" style="left:5%; animation-delay:0s"><span>🌸</span></div>
+  <div class="petal" style="left:20%; animation-delay:3s"><span>🌸</span></div>
+  <div class="petal" style="left:35%; animation-delay:6s"><span>🌸</span></div>
+  <div class="petal" style="left:50%; animation-delay:1s"><span>🌸</span></div>
+  <div class="petal" style="left:65%; animation-delay:4s"><span>🌸</span></div>
+  <div class="petal" style="left:80%; animation-delay:2s"><span>🌸</span></div>
+  <div class="petal" style="left:95%; animation-delay:5s"><span>🌸</span></div>
+</div>
+
+<div class="bar" id="bar">
+</div>
+
 </style>
 </head>
 <body>
