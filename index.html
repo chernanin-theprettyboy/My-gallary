@@ -12,7 +12,7 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 /* background layout: */
  body{margin:0;background-color:var(--bg);
-     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .3 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
      background-size: 200px 200px;
      color:var(--ink);font-family:"Jost",system-ui,sans-serif;line-height:1.6}
 header{max-width:1100px;margin:0 auto;padding:72px 24px 28px}
@@ -52,9 +52,9 @@ figcaption{padding:12px 16px;font-size:.95rem;color:var(--mute)}
   z-index:-1;
   pointer-events:none;
   background:
-    radial-gradient(circle at 20% 30%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 40%),
-    radial-gradient(circle at 80% 70%,color-mix(in srgb,var(--accent) 14%,transparent),transparent 45%);
-  animation:drift 30s ease-in-out infinite alternate;
+    radial-gradient(circle at 20% 30%,color-mix(in srgb,var(--accent) 60%,transparent),transparent 40%),
+    radial-gradient(circle at 80% 70%,color-mix(in srgb,var(--accent) 45%,transparent),transparent 45%);
+  animation:drift 4s ease-in-out infinite alternate;
 }
 @keyframes drift{
   from{transform:translate(0,0) scale(1)}
