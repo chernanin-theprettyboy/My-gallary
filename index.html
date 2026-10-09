@@ -41,18 +41,14 @@ footer{text-align:center;color:var(--mute);padding:0 20px 40px;font-size:.9rem}
 <p>A small collection of moments I stopped to photograph. Tap any photo to view it larger.</p>
 </header>
 <div class="bar" id="bar">
-<label>Add photos<input type="file" id="up" accept="image/*" multiple></label>
 </div>
 <main id="grid" aria-live="polite"></main>
-<footer>Photos added with "Add photos" show only on your screen.</footer>
 <div id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
 <button id="x" aria-label="Close">&times;</button><button id="pv" aria-label="Previous">&#8249;</button><button id="nx" aria-label="Next">&#8250;</button>
 <img id="big" alt=""><p id="cap"></p>
 </div>
 <script>
-// STEP 1: the data. Replace these entries with your own photos (src = image address).
-function ph(c1,c2,w,h){var s='<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+c1+'"/><stop offset="1" stop-color="'+c2+'"/></linearGradient></defs><rect width="100%" height="100%" fill="url(#g)"/></svg>';return 'data:image/svg+xml;utf8,'+encodeURIComponent(s)}
-var photos=[
+// STEP 1: the data. One line per photo: t = title, c = category, src = file name.
 var photos=[
 {t:"My first photo",c:"Photos",src:"369511D6-6764-46E2-AFDE-B11334FDFB38_4_5005_c.jpeg"},
 {t:"My second photo",c:"Photos",src:"8E26ADE0-F69F-4A0B-88F1-2951FAE74023_4_5005_c.jpeg"}
@@ -91,13 +87,6 @@ document.getElementById("nx").onclick=function(){open(idx+1)};
 lb.onclick=function(e){if(e.target===lb)close()};
 document.onkeydown=function(e){if(!lb.classList.contains("on"))return;
  if(e.key==="Escape")close();if(e.key==="ArrowLeft")open(idx-1);if(e.key==="ArrowRight")open(idx+1)};
-// STEP 5: let a visitor preview their own photos (stays in their browser only).
-document.getElementById("up").onchange=function(e){
- Array.prototype.forEach.call(e.target.files,function(f){
-  photos.unshift({t:f.name.replace(/\.[^.]+$/,""),c:"Mine",src:URL.createObjectURL(f)});
- });
- cat="All";filters();render();
-};
 filters();render();
 </script>
 </body>
