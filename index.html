@@ -15,64 +15,6 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .3 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
      background-size: 200px 200px;
      color:var(--ink);font-family:"Jost",system-ui,sans-serif;line-height:1.6}
- /* Container to hold the falling petals */
-.sakura-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  pointer-events: none; /* Allows users to click elements underneath */
-  background: linear-gradient(to bottom, #fff5f7, #ffe3e8); /* Soft background */
-}
-
-/* Base petal styling */
-.petal {
-  position: absolute;
-  top: -10%;
-  width: 15px;
-  height: 20px;
-  background: #ffb7c5;
-  border-radius: 0 70% 40% 70%; /* Gives it the teardrop sakura shape */
-  opacity: 0.8;
-  transform-origin: left top;
-  animation: fall linear infinite, sway ease-in-out infinite;
-}
-
-/* Create visual variety using nth-child */
-.petal:nth-child(1) { left: 10%; width: 18px; height: 24px; animation-duration: 8s, 4s; animation-delay: 0s, 0s; }
-.petal:nth-child(2) { left: 25%; width: 12px; height: 16px; background: #ffa4b6; animation-duration: 12s, 3s; animation-delay: 2s, 1s; }
-.petal:nth-child(3) { left: 40%; width: 15px; height: 20px; animation-duration: 10s, 5s; animation-delay: 1s, 0.5s; }
-.petal:nth-child(4) { left: 55%; width: 20px; height: 26px; background: #ffc0cb; animation-duration: 7s, 3.5s; animation-delay: 4s, 2s; }
-.petal:nth-child(5) { left: 70%; width: 14px; height: 18px; animation-duration: 11s, 4.5s; animation-delay: 1.5s, 1s; }
-.petal:nth-child(6) { left: 85%; width: 16px; height: 22px; animation-duration: 9s, 4s; animation-delay: 3s, 0s; }
-.petal:nth-child(7) { left: 95%; width: 12px; height: 15px; background: #ffa4b6; animation-duration: 13s, 3.8s; animation-delay: 5s; }
-.petal:nth-child(8) { left: 15%; width: 19px; height: 25px; animation-duration: 8.5s, 4.2s; animation-delay: 6s; }
-
-/* Animation 1: The downward fall */
-@keyframes fall {
-  0% {
-    top: -10%;
-    transform: translateX(0) rotate(0deg);
-  }
-  100% {
-    top: 110%;
-    transform: translateX(100px) rotate(360deg);
-  }
-}
-
-/* Animation 2: The lively, organic sway and flip */
-@keyframes sway {
-  0%, 100% {
-    transform: rotateY(0deg) rotateX(0deg);
-  }
-  50% {
-    transform: rotateY(180deg) rotateX(50deg) translateX(-30px);
-    background: #ff91a4; /* Simulates catching light/shadow as it flips */
-  }
-}
-
 header{max-width:1100px;margin:0 auto;padding:72px 24px 28px}
 h1{font-size:clamp(2.2rem,6vw,3.6rem);line-height:1.1;margin:0 0 14px;font-weight:300;letter-spacing:.01em}
 header p{margin:0;max-width:48ch;color:var(--mute);font-size:1.05rem}
@@ -124,6 +66,7 @@ figcaption{padding:12px 16px;font-size:.95rem;color:var(--mute)}
 </style>
 </head>
 <body>
+
 <header>
 <h1>Through my lens</h1>
 <p>A small collection of moments I stopped to photograph. Tap any photo to view it larger.</p>
