@@ -12,9 +12,7 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 /* background layout: */
  body{margin:0;background-color:var(--bg);
-     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .3 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-     background-size: 200px 200px;
-     color:var(--ink);font-family:"Jost",system-ui,sans-serif;line-height:1.6}
+ color:var(--ink);font-family:"Jost",system-ui,sans-serif;line-height:1.6}
 header{max-width:1100px;margin:0 auto;padding:72px 24px 28px}
 h1{font-size:clamp(2.2rem,6vw,3.6rem);line-height:1.1;margin:0 0 14px;font-weight:300;letter-spacing:.01em}
 header p{margin:0;max-width:48ch;color:var(--mute);font-size:1.05rem}
@@ -52,8 +50,8 @@ figcaption{padding:12px 16px;font-size:.95rem;color:var(--mute)}
   z-index:-1;
   pointer-events:none;
   background:
-    radial-gradient(circle at 50% 70%,color-mix(in srgb,var(--accent) 90%,transparent),transparent 60%),
-    radial-gradient(circle at 80% 70%,color-mix(in srgb,var(--accent) 60%,transparent),transparent 60%);
+    radial-gradient(circle at 30% 45%,color-mix(in srgb,var(--accent) 60%,transparent),transparent 30%),
+    radial-gradient(circle at 20% 30%,color-mix(in srgb,var(--accent) 40%,transparent),transparent 40%);
   animation:drift 4s ease-in-out infinite alternate;
 }
 @keyframes drift{
@@ -130,20 +128,9 @@ header, .bar, #grid {
   }
 }
 </style>
-```
-
-## Step 2 — Add the sakura HTML
-
-Now scroll down to the `<body>` section. Find these exact lines:
-
-```html
 </header>
 <div class="bar" id="bar">
 </div>
-```
-
-Insert the new sakura container between them so the section looks like this:
-
 <CodeBlock language="html" editable>
 </header>
 
