@@ -118,6 +118,10 @@ header, .bar, #grid {
   }
 }
 .avg{margin-left:8px;align-self:center;font-size:.85rem;color:var(--mute)}
+.stars{display:flex;gap:2px;padding-top:6px}
+.stars button{background:none;border:0;padding:0 2px;font-size:1.3rem;line-height:1;cursor:pointer;color:var(--line);transition:color .15s,transform .15s}
+.stars button.on{color:#e8a317}
+.stars button:hover{transform:scale(1.2)}
 </style>
 </head>
 <body>
@@ -174,6 +178,7 @@ function render(){
   var f=document.createElement("figure");f.tabIndex=0;f.setAttribute("role","button");
   f.innerHTML='<img loading="lazy" alt=""><figcaption></figcaption>';
   f.querySelector("img").src=p.src;f.querySelector("img").alt=p.t;f.querySelector("figcaption").textContent=p.t;
+  f.querySelector("figcaption").appendChild(stars(p));
   f.onclick=function(){open(i)};
   f.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();open(i)}};
   grid.appendChild(f);
