@@ -225,6 +225,53 @@ document.getElementById("rs").onclick=function(){st={bg:P[0].bg,ac:P[0].ac,g:P[0
 var cz=document.getElementById("cz"),pn=document.getElementById("pn");
 cz.onclick=function(){pn.hidden=!pn.hidden;cz.setAttribute("aria-expanded",!pn.hidden)};
 apply();
+ // STEP 6: star ratings, shared through Supabase
+var SB_URL="https://avrkgnnprvjfobzzwwkw.supabase.co";
+var SB_KEY="PASTE-YOUR-PUBLISHABLE-KEY-HERE";
+
+var ratings={},stats={},voter="";
+try{ratings=JSON.parse(localStorage.getItem("gal-ratings"))||{}}catch(e){}
+try{voter=localStorage.getItem("gal-voter")||""}catch(e){}
+if(!voter){
+ voter=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():"v"+Date.now()+Math.random().toString(36).slice(2);
+ try{localStorage.setItem("gal-voter",voter)}catch(e){}
+}
+function saveRatings(){try{localStorage.setItem("gal-ratings",JSON.stringify(ratings))}catch(e){}}
+
+function sb(fn,body){
+ return fetch(SB_URL+"/rest/v1/rpc/"+fn,{
+  method:"POST",
+  headers:{"apikey":SB_KEY,"Content-Type":"application/json"},
+  body:JSON.stringify(body||{})
+ }).then(function(r){
+  if(!r.ok)throw new Error("Supabase error "+r.status);
+  return r.text();
+ }).then(function(t){return t?JSON.parse(t):null});
+}
+function loadStats(){
+ sb("photo_stats").then(function(rows){
+  stats={};(rows||[]).forEach(function(r){stats[r.photo]=r});render();
+ }).catch(function(e){console.log(e)});
+}
+function paint(box,v){box.querySelectorAll("button").forEach(function(b,i){b.className=i<v?"on":""})}
+function stars(p){
+ var box=document.createElement("div");box.className="stars";
+ for(var n=1;n<=5;n++){(function(n){
+  var s=document.createElement("button");s.type="button";s.textContent="★";
+  s.setAttribute("aria-label","Rate "+n+" out of 5");
+  s.onclick=function(e){
+   e.stopPropagation();
+   ratings[p.src]=n;saveRatings();paint(box,n);
+   sb("rate_photo",{p_photo:p.src,p_voter:voter,p_stars:n}).then(loadStats).catch(function(e){console.log(e)});
+  };
+  s.onkeydown=function(e){e.stopPropagation()};
+  box.appendChild(s)})(n)}
+ paint(box,ratings[p.src]||0);
+ var info=document.createElement("span");info.className="avg";
+ var st=stats[p.src];
+ info.textContent=st?(st.average+" ("+st.votes+")"):"No votes yet";
+ box.appendChild(info);
+ return box}
 filters();render();
 </script>
 </body>
