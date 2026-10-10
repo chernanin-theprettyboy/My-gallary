@@ -12,7 +12,7 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 /* background layout: */
  body{margin:0;background-color:var(--bg);
- color:var(--ink);font-family:"Roboto Slab",system-ui,sans-serif;line-height:1.6}
+ color:var(--ink);font-family:"Jost",system-ui,sans-serif;line-height:1.6}
 header{max-width:1100px;margin:0 auto;padding:72px 24px 28px}
 h1{font-size:clamp(2.2rem,6vw,3.6rem);line-height:1.1;margin:0 0 14px;font-weight:300;letter-spacing:.01em}
 header p{margin:0;max-width:48ch;color:var(--mute);font-size:1.05rem}
@@ -117,15 +117,12 @@ header, .bar, #grid {
     display: none;
   }
 }
-.avg{margin-left:8px;align-self:center;font-size:.85rem;color:var(--mute)}
-.stars{display:flex;gap:2px;padding-top:6px}
-.stars button{background:none;border:0;padding:0 2px;font-size:1.3rem;line-height:1;cursor:pointer;color:var(--line);transition:color .15s,transform .15s}
-.stars button.on{color:#e8a317}
-.stars button:hover{transform:scale(1.2)}
 </style>
-</head>
-<body>
-
+</header>
+<div class="bar" id="bar">
+</div>
+<CodeBlock language="html" editable>
+</header>
 <!-- Sakura falling petals -->
 <div class="sakura-container" aria-hidden="true">
   <div class="petal" style="left:5%; animation-delay:0s"><span>🌸</span></div>
@@ -136,6 +133,13 @@ header, .bar, #grid {
   <div class="petal" style="left:80%; animation-delay:2s"><span>🌸</span></div>
   <div class="petal" style="left:95%; animation-delay:5s"><span>🌸</span></div>
 </div>
+
+<div class="bar" id="bar">
+</div>
+
+</style>
+</head>
+<body>
 
 <header>
 <h1>Through my lens</h1>
@@ -159,8 +163,6 @@ header, .bar, #grid {
 <script src="photos.js"></script>
  <script>
 // STEP 1: the data. One line per photo: t = title, c = category, src = file name.
-<HEAD>
-var shown=photos,idx=0,cat="All"; 41d003e7106d896ed760222753985e260325491d
 var shown=photos,idx=0,cat="All";
 var grid=document.getElementById("grid"),bar=document.getElementById("bar");
 // STEP 2: draw the grid from the data.
@@ -171,7 +173,6 @@ function render(){
   var f=document.createElement("figure");f.tabIndex=0;f.setAttribute("role","button");
   f.innerHTML='<img loading="lazy" alt=""><figcaption></figcaption>';
   f.querySelector("img").src=p.src;f.querySelector("img").alt=p.t;f.querySelector("figcaption").textContent=p.t;
-  f.querySelector("figcaption").appendChild(stars(p));
   f.onclick=function(){open(i)};
   f.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();open(i)}};
   grid.appendChild(f);
@@ -224,55 +225,7 @@ document.getElementById("rs").onclick=function(){st={bg:P[0].bg,ac:P[0].ac,g:P[0
 var cz=document.getElementById("cz"),pn=document.getElementById("pn");
 cz.onclick=function(){pn.hidden=!pn.hidden;cz.setAttribute("aria-expanded",!pn.hidden)};
 apply();
- // STEP 6: star ratings, shared through Supabase
-var SB_URL="https://avrkgnnprvjfobzzwwkw.supabase.co";
-var SB_KEY="sb_publishable_7y3Xhi1rjK_ofvH1UW2pAQ_AnyHnaL_";
-
-var ratings={},stats={},voter="";
-try{ratings=JSON.parse(localStorage.getItem("gal-ratings"))||{}}catch(e){}
-try{voter=localStorage.getItem("gal-voter")||""}catch(e){}
-if(!voter){
- voter=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():"v"+Date.now()+Math.random().toString(36).slice(2);
- try{localStorage.setItem("gal-voter",voter)}catch(e){}
-}
-function saveRatings(){try{localStorage.setItem("gal-ratings",JSON.stringify(ratings))}catch(e){}}
-
-function sb(fn,body){
- return fetch(SB_URL+"/rest/v1/rpc/"+fn,{
-  method:"POST",
-  headers:{"apikey":SB_KEY,"Content-Type":"application/json"},
-  body:JSON.stringify(body||{})
- }).then(function(r){
-  if(!r.ok)throw new Error("Supabase error "+r.status);
-  return r.text();
- }).then(function(t){return t?JSON.parse(t):null});
-}
-function loadStats(){
- sb("photo_stats").then(function(rows){
-  stats={};(rows||[]).forEach(function(r){stats[r.photo]=r});render();
- }).catch(function(e){console.log(e)});
-}
-function paint(box,v){box.querySelectorAll("button").forEach(function(b,i){b.className=i<v?"on":""})}
-function stars(p){
- var box=document.createElement("div");box.className="stars";
- for(var n=1;n<=5;n++){(function(n){
-  var s=document.createElement("button");s.type="button";s.textContent="★";
-  s.setAttribute("aria-label","Rate "+n+" out of 5");
-  s.onclick=function(e){
-   e.stopPropagation();
-   ratings[p.src]=n;saveRatings();paint(box,n);
-   sb("rate_photo",{p_photo:p.src,p_voter:voter,p_stars:n}).then(loadStats).catch(function(e){console.log(e)});
-  };
-  s.onkeydown=function(e){e.stopPropagation()};
-  box.appendChild(s)})(n)}
- paint(box,ratings[p.src]||0);
- var info=document.createElement("span");info.className="avg";
- var st=stats[p.src];
- info.textContent=st?(st.average+" ("+st.votes+")"):"No votes yet";
- box.appendChild(info);
- return box}
 filters();render();
-loadStats();
 </script>
 </body>
 </html>
