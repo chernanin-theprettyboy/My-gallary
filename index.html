@@ -227,7 +227,7 @@ cz.onclick=function(){pn.hidden=!pn.hidden;cz.setAttribute("aria-expanded",!pn.h
 apply();
  // STEP 6: star ratings, shared through Supabase
 var SB_URL="https://avrkgnnprvjfobzzwwkw.supabase.co";
-var SB_KEY="PASTE-YOUR-PUBLISHABLE-KEY-HERE";
+var SB_KEY="sb_publishable_7y3Xhi1rjK_ofvH1UW2pAQ_AnyHnaL_";
 
 var ratings={},stats={},voter="";
 try{ratings=JSON.parse(localStorage.getItem("gal-ratings"))||{}}catch(e){}
@@ -273,6 +273,7 @@ function stars(p){
  box.appendChild(info);
  return box}
 filters();render();
+loadstats();
 </script>
 </body>
 </html>
