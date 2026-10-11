@@ -129,6 +129,28 @@ figure img{height:clamp(300px,52vh,440px);object-fit:cover}
 .nav{display:flex;justify-content:flex-end;gap:8px;padding:0 24px 12px;position:relative;z-index:2}
 .nav button{font:inherit;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:1.4rem;line-height:1;cursor:pointer;transition:border-color .2s}
 .nav button:hover{border-color:var(--accent)}
+/* Text and animation */
+h1 span{display:inline-block;opacity:0;transform:translateY(28px);animation:rise .8s ease forwards}
+h1 span:nth-child(2){animation-delay:.15s}
+h1 span:nth-child(3){animation-delay:.3s}
+header p{opacity:0;animation:fade 1s ease .6s forwards}
+header .stat{margin-top:14px;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);animation-delay:1s}
+@keyframes rise{to{opacity:1;transform:none}}
+@keyframes fade{to{opacity:1}}
+.hint{margin-right:auto;align-self:center;font-size:.9rem;color:var(--mute)}
+.hint i{display:inline-block;font-style:normal;color:var(--accent);animation:nudge 1.4s ease-in-out infinite}
+@keyframes nudge{50%{transform:translateX(6px)}}
+.about{max-width:640px;margin:0 auto;padding:48px 24px 40px;position:relative;z-index:2}
+.about h2{margin:0 0 12px;font-size:clamp(1.6rem,4vw,2.2rem);font-weight:300}
+.about p{margin:0;color:var(--mute)}
+footer{text-align:center;color:var(--mute);font-size:.85rem;padding:0 24px 110px;position:relative;z-index:2}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+ h1 span,header p{animation:none;opacity:1;transform:none}
+ .hint i{animation:none}
+ .reveal{opacity:1;transform:none;transition:none}
+}
 </style>
 </head>
 <body>
@@ -145,13 +167,19 @@ figure img{height:clamp(300px,52vh,440px);object-fit:cover}
 </div>
 
 <header>
-<h1>Through my lens</h1>
+<h1><span>Through</span> <span>my</span> <span>lens</span></h1>
 <p>A small collection of moments I stopped to photograph. Tap any photo to view it larger.</p>
+<p class="stat" id="stat"></p>
 </header>
 <div class="bar" id="bar">
 </div>
-<div class="nav"><button id="sl" aria-label="Scroll left">&#8249;</button><button id="sr" aria-label="Scroll right">&#8250;</button></div>
+<div class="nav"><span class="hint">Scroll to explore <i>&rarr;</i></span><button id="sl" aria-label="Scroll left">&#8249;</button><button id="sr" aria-label="Scroll right">&#8250;</button></div>
 <main id="grid" aria-live="polite"></main>
+<section class="about reveal">
+<h2>About this gallery</h2>
+<p> Being with memories make me happy. That is why I intentionally take the photograph wherever I go. Once in a while it recall back the moment when thing happended and went back and this is one amoung other ways of keeping the memory alive. </p>
+</section>
+<footer class="reveal">Photos by Chernan In &middot; 2026</footer>
 <button id="cz" aria-expanded="false" aria-controls="pn">Customize</button>
 <div id="pn" hidden>
 <p>Theme</p><div id="pr"></div>
@@ -281,6 +309,14 @@ function stars(p){
  return box}
 document.getElementById("sl").onclick=function(){grid.scrollBy({left:-360,behavior:"smooth"})};
 document.getElementById("sr").onclick=function(){grid.scrollBy({left:360,behavior:"smooth"})};
+// STEP 7: text animations
+var reduce=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+var catCount=photos.map(function(p){return p.c}).filter(function(v,i,a){return a.indexOf(v)===i}).length;
+var stat=document.getElementById("stat");
+function showStat(k){var n=Math.round(photos.length*k);stat.textContent=n+" photo"+(n===1?"":"s")+" \u00b7 "+catCount+" categor"+(catCount===1?"y":"ies")}
+if(reduce){showStat(1)}else{showStat(0);setTimeout(function(){var t0=performance.now();(function step(now){var k=Math.min((now-t0)/1400,1);showStat(k);if(k<1)requestAnimationFrame(step)})(t0)},1000)}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.2});
+document.querySelectorAll(".reveal").forEach(function(el){io.observe(el)});
 filters();render();
 loadStats();
 </script>
