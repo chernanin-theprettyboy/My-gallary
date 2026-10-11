@@ -122,6 +122,13 @@ header, .bar, #grid {
 .stars button{background:none;border:0;padding:0 2px;font-size:1.3rem;line-height:1;cursor:pointer;color:var(--line);transition:color .15s,transform .15s}
 .stars button.on{color:#e8a317}
 .stars button:hover{transform:scale(1.2)}
+/* Horizontal gallery */
+main{display:flex;gap:20px;max-width:none;margin:0;padding:4px 24px 48px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 24px;scrollbar-width:thin;scrollbar-color:var(--accent) transparent}
+figure{margin:0;width:auto;flex:0 0 clamp(240px,72vw,340px);scroll-snap-align:start}
+figure img{height:clamp(300px,52vh,440px);object-fit:cover}
+.nav{display:flex;justify-content:flex-end;gap:8px;padding:0 24px 12px;position:relative;z-index:2}
+.nav button{font:inherit;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:1.4rem;line-height:1;cursor:pointer;transition:border-color .2s}
+.nav button:hover{border-color:var(--accent)}
 </style>
 </head>
 <body>
@@ -143,6 +150,7 @@ header, .bar, #grid {
 </header>
 <div class="bar" id="bar">
 </div>
+<div class="nav"><button id="sl" aria-label="Scroll left">&#8249;</button><button id="sr" aria-label="Scroll right">&#8250;</button></div>
 <main id="grid" aria-live="polite"></main>
 <button id="cz" aria-expanded="false" aria-controls="pn">Customize</button>
 <div id="pn" hidden>
@@ -165,7 +173,7 @@ var grid=document.getElementById("grid"),bar=document.getElementById("bar");
 // STEP 2: draw the grid from the data.
 function render(){
  shown=photos.filter(function(p){return cat==="All"||p.c===cat});
- grid.innerHTML="";
+ var keep=grid.scrollLeft;grid.innerHTML="";
  shown.forEach(function(p,i){
   var f=document.createElement("figure");f.tabIndex=0;f.setAttribute("role","button");
   f.innerHTML='<img loading="lazy" alt=""><figcaption></figcaption>';
@@ -175,6 +183,7 @@ function render(){
   f.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();open(i)}};
   grid.appendChild(f);
  });
+grid.scrollLeft=keep;
 }
 // STEP 3: category filter buttons built from the data.
 function filters(){
@@ -182,7 +191,7 @@ function filters(){
  var cats=["All"].concat(photos.map(function(p){return p.c}).filter(function(v,i,a){return a.indexOf(v)===i}));
  cats.reverse().forEach(function(c){
   var b=document.createElement("button");b.textContent=c;b.setAttribute("aria-pressed",c===cat);
-  b.onclick=function(){cat=c;filters();render()};bar.prepend(b);
+  b.onclick=function(){cat=c;filters();render();grid.scrollLeft=0};bar.prepend(b);
  });
 }
 // STEP 4: the lightbox (big viewer).
@@ -270,6 +279,8 @@ function stars(p){
  info.textContent=st?(st.average+" ("+st.votes+")"):"No votes yet";
  box.appendChild(info);
  return box}
+document.getElementById("sl").onclick=function(){grid.scrollBy({left:-360,behavior:"smooth"})};
+document.getElementById("sr").onclick=function(){grid.scrollBy({left:360,behavior:"smooth"})};
 filters();render();
 loadStats();
 </script>
