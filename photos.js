@@ -48,10 +48,5 @@ var photos = [
   "t": "Epic view",
   "c": "Nature",
   "src": "EA46B7E0-8B43-4E38-81DE-253E43EEC405_4_5005_c.jpeg"
- },
- {
-  "t": "Sky and tree",
-  "c": "Nature",
-  "src": "photos/sky-and-tree.jpg"
  }
 ];
