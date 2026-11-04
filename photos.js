@@ -52,5 +52,6 @@ var photos = [
  {
   "t": "Shrine" 
   "c": "Architecture"
-  "src":
+  "src": "C36BF867-FB50-4CE9-9235-03AAA7A27310_1_105_c.jpeg"
+}
 ];
