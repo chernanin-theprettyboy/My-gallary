@@ -50,8 +50,8 @@ var photos = [
   "src": "EA46B7E0-8B43-4E38-81DE-253E43EEC405_4_5005_c.jpeg"
  },
  {
-  "t": "Shrine" 
-  "c": "Architecture"
+  "t": "Shrine", 
+  "c": "Architecture",
   "src": "C36BF867-FB50-4CE9-9235-03AAA7A27310_1_105_c.jpeg"
 }
 ];
