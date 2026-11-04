@@ -230,7 +230,32 @@ document.onkeydown=function(e){if(!lb.classList.contains("on"))return;
  if(e.key==="Escape")close();if(e.key==="ArrowLeft")open(idx-1);if(e.key==="ArrowRight")open(idx+1)};
 // STEP 5: visitor theme controls. Everything is saved in the visitor's own browser only.
 var G={none:"none",soft:"saturate(.95) contrast(1.03) brightness(1.02)",warm:"sepia(.2) saturate(1.15) contrast(1.05)",mono:"grayscale(1) contrast(1.1)"};
-var P=[{n:"Calm",bg:"#f4f6f7",ac:"#4f7f86",g:"soft"},{n:"Midnight",bg:"#0f1115",ac:"#ffb454",g:"none"},{n:"Warm film",bg:"#efe6da",ac:"#b5651d",g:"warm"},{n:"Mist",bg:"#e3ebf1",ac:"#2f6fed",g:"soft"}];
+var P=[
+ {n:"Calm",bg:"#f4f6f7",ac:"#4f7f86",g:"soft",fx:"sakura"},
+ {n:"Midnight",bg:"#0f1115",ac:"#ffb454",g:"none",fx:"fireflies"},
+ {n:"Warm film",bg:"#efe6da",ac:"#b5651d",g:"warm",fx:"autumn"},
+ {n:"Mist",bg:"#e3ebf1",ac:"#2f6fed",g:"soft",fx:"rain"},
+ {n:"Sakura pink",bg:"#fbeef1",ac:"#d96a8a",g:"soft",fx:"sakura"},
+ {n:"Night forest",bg:"#0e1a14",ac:"#6fcf97",g:"none",fx:"fireflies"},
+ {n:"Deep ocean",bg:"#0b1b2b",ac:"#4fc3f7",g:"none",fx:"bubbles"},
+ {n:"Winter",bg:"#eaf1f8",ac:"#3b6ea5",g:"soft",fx:"snow"},
+ {n:"Golden autumn",bg:"#f3e6cf",ac:"#c0621a",g:"warm",fx:"maple"},
+ {n:"Lavender",bg:"#efeaf7",ac:"#7a5ccf",g:"soft",fx:"butterfly"},
+ {n:"Starry night",bg:"#0a0d1f",ac:"#ffd166",g:"none",fx:"night"},
+ {n:"Fresh mint",bg:"#e8f5ef",ac:"#2a9d78",g:"soft",fx:"leaves"},
+ {n:"Sunset",bg:"#2a1620",ac:"#ff7a59",g:"warm",fx:"sparkles"},
+ {n:"Noir",bg:"#121212",ac:"#e0e0e0",g:"mono",fx:"softsnow"},
+ {n:"Spring garden",bg:"#f4f8e8",ac:"#6aa84f",g:"soft",fx:"spring"},
+ {n:"Lucky green",bg:"#e6f2e3",ac:"#2e7d32",g:"soft",fx:"clover"},
+ {n:"Love",bg:"#fff0f3",ac:"#e0457b",g:"soft",fx:"hearts"},
+ {n:"Party",bg:"#fff7e6",ac:"#e5484d",g:"none",fx:"confetti"},
+ {n:"Lantern night",bg:"#1c0f0f",ac:"#ff5a3c",g:"warm",fx:"lanterns"},
+ {n:"Sky dream",bg:"#e6f3ff",ac:"#1e88e5",g:"soft",fx:"doves"},
+ {n:"Balloon fair",bg:"#fff4e0",ac:"#ff6f61",g:"none",fx:"balloons"},
+ {n:"Japan tea",bg:"#e9ecdc",ac:"#7c8f3a",g:"warm",fx:"japan"},
+ {n:"Ladybug meadow",bg:"#fbeee6",ac:"#c62828",g:"soft",fx:"ladybugs"},
+ {n:"Feather cloud",bg:"#f1efec",ac:"#756a5e",g:"soft",fx:"feathers"}
+];
 var st={bg:P[0].bg,ac:P[0].ac,g:P[0].g};
 try{var x=JSON.parse(localStorage.getItem("gal-theme"));if(x&&/^#[0-9a-f]{6}$/i.test(x.bg)&&/^#[0-9a-f]{6}$/i.test(x.ac)&&G[x.g])st=x}catch(e){}
 function rgb(h){return [1,3,5].map(function(i){return parseInt(h.substr(i,2),16)})}
@@ -248,7 +273,7 @@ function apply(){
 }
 var pr=document.getElementById("pr");
 P.forEach(function(p){var b=document.createElement("button");b.className="pill";b.textContent=p.n;
- b.onclick=function(){st={bg:p.bg,ac:p.ac,g:p.g};apply()};pr.appendChild(b)});
+  b.onclick=function(){st={bg:p.bg,ac:p.ac,g:p.g};apply();if(p.fx&&window.setFx)setFx(p.fx)};pr.appendChild(b)});
 document.getElementById("cbg").oninput=function(e){st.bg=e.target.value;apply()};
 document.getElementById("cac").oninput=function(e){st.ac=e.target.value;apply()};
 document.getElementById("cg").onchange=function(e){st.g=e.target.value;apply()};
