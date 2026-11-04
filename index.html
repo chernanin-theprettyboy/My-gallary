@@ -178,6 +178,10 @@ footer{text-align:center;color:var(--mute);font-size:.85rem;padding:0 24px 110px
 <label>Background <input type="color" id="cbg"></label>
 <label>Accent <input type="color" id="cac"></label>
 <label>Photo look <select id="cg"><option value="none">Original</option><option value="soft">Soft</option><option value="warm">Warm film</option><option value="mono">Black and white</option></select></label>
+<label>Falling effect <select id="fxs"></select></label>
+<label>Amount <input type="range" id="fxa" min="0" max="60"></label>
+<label>Speed <input type="range" id="fxv" min="0.4" max="2.5" step="0.1"></label>
+<label>Size <input type="range" id="fxz" min="0.5" max="2" step="0.1"></label>
 <button id="rs">Reset to default</button>
 </div>
 <div id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
@@ -312,5 +316,6 @@ document.querySelectorAll(".reveal").forEach(function(el){io.observe(el)});
 filters();render();
 loadStats();
 </script>
+<script src="effects.js"></script>
 </body>
 </html>
