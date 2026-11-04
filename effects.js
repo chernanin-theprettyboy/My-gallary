@@ -124,7 +124,12 @@ var FX = {
     cfg = {fx: DEFAULT.fx, amt: DEFAULT.amt, spd: DEFAULT.spd, siz: DEFAULT.siz};
     save(); sync(); build();
   });
-
+  // lets index.html change the effect, for example when a theme is picked
+  window.setFx = function (key) {
+    if (!FX[key]) return;
+    cfg.fx = key;
+    save(); sync(); build();
+  };
   sync();
   build();
 })();
